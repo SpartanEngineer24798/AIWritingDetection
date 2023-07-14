@@ -1,113 +1,36 @@
 import json
 import re
-import numpy as np
-import string
-
 import statistics
-from lexicalrichness import LexicalRichness
-import readability
-import nltk
-nltk.download('punkt')
-
-from nltk.tokenize import word_tokenize, sent_tokenize
-import spacy
-import torch
-from spacy import util
-from transformers import GPT2Tokenizer, GPT2LMHeadModel
-
-import os
-import sys
 import subprocess
 import argparse
+import os
 from collections import defaultdict
 from tqdm import tqdm
 
-def execute_another_script():
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    another_script = os.path.join(current_directory, 'another_script.py')
-    subprocess.call(['python', another_script])
+import nltk
+import readability
+import spacy
+import torch
+from lexicalrichness import LexicalRichness
+from nltk.tokenize import word_tokenize, sent_tokenize
+from spacy import util
+from transformers import GPT2Tokenizer, GPT2LMHeadModel
 
-def word_count(document):
-    tokens = word_tokenize(document)
-    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
-    filtered = [w for w in tokens if nonPunct.match(w)]
-    return len(filtered)
-
-def word_count_sent(document):
-    tokens = sent_tokenize(document)
-    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
-    filtered = [w for w in tokens if nonPunct.match(w)]
-    word_counts = [word_count(sent) for sent in filtered]
-    if len(word_counts) == 0:
-        return 0, 0
-    mean = sum(word_counts) / len(word_counts)
-    if len(word_counts) < 2:
-        stdev = 0
-    else:
-        stdev = statistics.stdev(word_counts)
-    return mean, stdev
-
-def special_punc_count_sent(document):
-    special_puncts = ['!', '\"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
-    tokens = sent_tokenize(document)
-    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
-    filtered = [w for w in tokens if nonPunct.match(w)]
-    punct_count = 0
-    total_sentences = len(filtered)
-    if total_sentences == 0:
-        return 0
-    for sent in filtered:
-        for char in sent:
-            if char in special_puncts:
-                punct_count += 1
-    return float(punct_count) / total_sentences
-
-
-def readability_score(document):
-    try:
-        r = readability.getmeasures(document, lang='en')
-        fk = r['readability grades']['Kincaid']
-        f = r['readability grades']['FleschReadingEase']
-        ari = r['readability grades']['ARI']
-    except:
-        return 0, 0, 0
-    else:
-        return fk, f, ari
-
-
-def lexical_richness(document):
-    sample_size = 10
-    iterations = 50
-    lex = LexicalRichness(document)
-    ret_list = []
-    words = document.split()
-    try:
-        if len(words) > 45:
-            ret_list.append(lex.mattr(window_size=25))
-        else:
-            window_size = max(1, len(words) // 3)  # Adjusted window size
-            if window_size > len(words):
-                window_size = len(words)
-            ret_list.append(lex.mattr(window_size=window_size))
-    except Exception:
-        ret_list.append(0)  # Return 0 if an exception is thrown during feature extraction
-    ret_list.append(lex.mtld(threshold=0.72))
-    return ret_list
-
+nltk.download('punkt')
+spacy_model = "en_core_web_trf"
+gpt2_model = "gpt2"
 
 class PerplexityCalculator:
     STRIDE = 512
-    MODEL = "gpt2"
-    SPACY_MODEL = "en_core_web_trf"
     NLP_MAX_LENGTH = 2000000
 
     def __init__(self):
-        self._tokenizer = GPT2Tokenizer.from_pretrained(self.MODEL)
-        self._model = GPT2LMHeadModel.from_pretrained(self.MODEL)
+        self._tokenizer = GPT2Tokenizer.from_pretrained(gpt2_model)
+        self._model = GPT2LMHeadModel.from_pretrained(gpt2_model)
         self._max_length = self._model.config.n_positions
         self._device = 'cuda' if torch.cuda.is_available() else 'cpu'
         self._model.to(self._device)
-        self._nlp = spacy.load(self.SPACY_MODEL)
+        self._nlp = spacy.load(spacy_model)
         self._nlp.add_pipe("sentencizer")
 
         infixes = self._nlp.Defaults.infixes + ['`', "'", '"']
@@ -146,6 +69,76 @@ def ppl_calculator(text: str, precision=2) -> float:
     return ppl_calc.calculate_inner(text, precision)
 
 
+def word_count(document):
+    tokens = word_tokenize(document)
+    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
+    filtered = [w for w in tokens if nonPunct.match(w)]
+    return len(filtered)
+
+
+def word_count_sent(document):
+    tokens = sent_tokenize(document)
+    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
+    filtered = [w for w in tokens if nonPunct.match(w)]
+    word_counts = [word_count(sent) for sent in filtered]
+    if len(word_counts) == 0:
+        return 0, 0
+    mean = sum(word_counts) / len(word_counts)
+    if len(word_counts) < 2:
+        stdev = 0
+    else:
+        stdev = statistics.stdev(word_counts)
+    return mean, stdev
+
+
+def special_punc_count_sent(document):
+    special_puncts = ['!', '\"', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', ':', ';', '<', '=', '>', '?', '@', '[', '\\', ']', '^', '_', '`', '{', '|', '}', '~']
+    tokens = sent_tokenize(document)
+    nonPunct = re.compile('.*[A-Za-z0-9].*')  # must contain a letter or digit
+    filtered = [w for w in tokens if nonPunct.match(w)]
+    punct_count = 0
+    total_sentences = len(filtered)
+    if total_sentences == 0:
+        return 0
+    for sent in filtered:
+        for char in sent:
+            if char in special_puncts:
+                punct_count += 1
+    return float(punct_count) / total_sentences
+
+
+def readability_score(document):
+    try:
+        r = readability.getmeasures(document, lang='en')
+        fk = r['readability grades']['Kincaid']
+        f = r['readability grades']['FleschReadingEase']
+        ari = r['readability grades']['ARI']
+    except Exception:
+        return 0, 0, 0
+    else:
+        return fk, f, ari
+
+
+def lexical_richness(document):
+    sample_size = 10
+    iterations = 50
+    lex = LexicalRichness(document)
+    ret_list = []
+    words = document.split()
+    try:
+        if len(words) > 45:
+            ret_list.append(lex.mattr(window_size=25))
+        else:
+            window_size = max(1, len(words) // 3)  # Adjusted window size
+            if window_size > len(words):
+                window_size = len(words)
+            ret_list.append(lex.mattr(window_size=window_size))
+    except Exception:
+        ret_list.append(0)  # Return 0 if an exception is thrown during feature extraction
+    ret_list.append(lex.mtld(threshold=0.72))
+    return ret_list
+
+
 def extract_features(document):
     results = []
 
@@ -165,6 +158,7 @@ def extract_features(document):
     results.append(ppl_calculator(document))
 
     return results
+
 
 def process_data(input_directory, output_directory):
     extract = defaultdict(list)
@@ -214,33 +208,19 @@ def process_data(input_directory, output_directory):
     progress_bar.close()
 
 
-def execute_another_script(script_name):
-    current_directory = os.path.dirname(os.path.abspath(__file__))
-    script_path = os.path.join(current_directory, script_name)
-    subprocess.call(['python', script_path])
+def main(input_directory, output_directory):
+    process_data(input_directory, output_directory)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description='Feature Extractor')
+    parser = argparse.ArgumentParser()
     parser.add_argument('--i', type=str, help='Input directory')
     parser.add_argument('--o', type=str, help='Output directory')
-    parser.add_argument('--clustering', help='Name of clustering script')
-    parser.add_argument('--mlp', help='Name of MLP script')
     args = parser.parse_args()
 
-    if args.i and args.o:
-        process_data(args.i, args.o)
-        input_folder = args.o
-    else:
-        print("Error: Please provide both the input directory and output directory.")
-        exit(1)
+    if not args.i:
+        parser.error("Input directory is required.")
+    if not args.o:
+        parser.error("Output directory is required.")
 
-    if args.clustering:
-        execute_another_script(args.clustering, input_folder)
-    else:
-        execute_another_script('clustering.py', input_folder)
-
-    if args.mlp:
-        execute_another_script(args.mlp, input_folder)
-    else:
-        execute_another_script('mlp.py', input_folder)
+    main(args.i, args.o)

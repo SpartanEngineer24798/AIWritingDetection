@@ -59,7 +59,7 @@ class MLP(nn.Module):
         return out
 
 
-def train_model(features, labels, epochs, batch_size, val_split, alpha, lr, patience):
+def train_model(model, features, labels, epochs, batch_size, val_split, alpha, lr, patience):
     X_train, X_val, y_train, y_val = train_test_split(features, labels, test_size=val_split, random_state=42)
 
     train_losses = []
@@ -67,6 +67,7 @@ def train_model(features, labels, epochs, batch_size, val_split, alpha, lr, pati
     train_accs = []
     val_accs = []
 
+    criterion = nn.BCELoss()
     optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=alpha)
 
     best_val_loss = float('inf')
@@ -152,7 +153,7 @@ def train_model(features, labels, epochs, batch_size, val_split, alpha, lr, pati
     return model.state_dict(), train_losses, val_losses, train_accs, val_accs
 
 
-def plot_curves(train_losses, val_losses, train_accs, val_accs):
+def plot_curves(train_losses, val_losses, train_accs, val_accs, results_dir):
     epochs = len(train_losses)
     x = np.arange(1, epochs + 1)
 
@@ -174,19 +175,40 @@ def plot_curves(train_losses, val_losses, train_accs, val_accs):
     plt.legend()
 
     plt.tight_layout()
-    plt.show()
+
+    # Save plot to mlp folder
+    mlp_dir = os.path.join(results_dir, 'mlp')
+    os.makedirs(mlp_dir, exist_ok=True)
+    plot_path = os.path.join(mlp_dir, 'plot.png')
+    i = 1
+    while os.path.exists(plot_path):
+        plot_path = os.path.join(mlp_dir, f'plot_{i}.png')
+        i += 1
+    plt.savefig(plot_path)
+    plt.close()
 
 
-def predict(features):
+def predict(model, features, results_dir):
     model.eval()
     with torch.no_grad():
         inputs = torch.from_numpy(features).float()
         outputs = model(inputs)
         predictions = outputs.numpy()
+
+    # Save predictions to mlp folder
+    mlp_dir = os.path.join(results_dir, 'mlp')
+    os.makedirs(mlp_dir, exist_ok=True)
+    pred_path = os.path.join(mlp_dir, 'predictions.npy')
+    i = 1
+    while os.path.exists(pred_path):
+        pred_path = os.path.join(mlp_dir, f'predictions_{i}.npy')
+        i += 1
+    np.save(pred_path, predictions)
+
     return predictions
 
 
-def main(input_folder):
+def main(input_folder, results_dir):
     data = read_data(input_folder)
     features, labels = process_dictionary(data)
 
@@ -194,18 +216,22 @@ def main(input_folder):
     hidden_size = 9
     model = MLP(input_size, hidden_size)
 
-    criterion = nn.BCELoss()
-    optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
-
     best_checkpoint, train_losses, val_losses, train_accs, val_accs = train_model(
-        features, labels, epochs=1000, batch_size=32, val_split=0.2, alpha=0.001, lr=0.001, patience=5)
+        model, features, labels, epochs=1000, batch_size=32, val_split=0.2, alpha=0.001, lr=0.001, patience=5)
 
-    plot_curves(train_losses, val_losses, train_accs, val_accs)
-    predictions = predict(features)
-    print(predictions)
+    plot_curves(train_losses, val_losses, train_accs, val_accs, results_dir)
+    predictions = predict(model, features, results_dir)
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_folder", help="Path to the input folder")
+    parser.add_argument("--i", "--input_directory", help="Path to the input folder")
+    parser.add_argument("--r", "--results_directory", help="Path to the results directory")
     args = parser.parse_args()
-    main(args.input_folder)
+
+    if not args.i:
+        parser.error("Please provide the input directory.")
+    if not args.r:
+        parser.error("Please provide the results directory.")
+
+    main(args.i, args.r)

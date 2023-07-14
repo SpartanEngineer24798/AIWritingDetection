@@ -4,8 +4,10 @@ import json
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
+
 
 def read_data(input_folder):
     data_dict = {}
@@ -14,9 +16,13 @@ def read_data(input_folder):
         data = []
         for file in os.listdir(path):
             with open(os.path.join(path, file), "r") as f:
-                data.append(json.load(f))
+                try:
+                    data.append(json.load(f))
+                except json.JSONDecodeError:
+                    print(f"Error decoding JSON in file: {file}")
         data_dict[key] = data
     return data_dict
+
 
 def preprocess_data(df):
     num_features = len(df.columns) - 1
@@ -27,6 +33,7 @@ def preprocess_data(df):
     df.iloc[:, :-1] = scaler.fit_transform(df.iloc[:, :-1])
 
     return df
+
 
 def plot_2d_pca(finalDf, targets, colors, folder, basename):
     fig = plt.figure(figsize=(8, 8))
@@ -96,7 +103,8 @@ def plot_3d_pca(finalDf, targets, colors, folder, basename):
     explained_variance_ratios = pca.explained_variance_ratio_
     np.savetxt(os.path.join(folder, f'{basename}_explained_variance_ratios.csv'), explained_variance_ratios, delimiter=',')
 
-def main(input_folder):
+
+def main(input_folder, results_directory):
     data = read_data(input_folder)
     df = pd.DataFrame()
 
@@ -118,16 +126,22 @@ def main(input_folder):
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=['principal component 1', 'principal component 2'])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_2d_pca(finalDf, targets, colors, 'results/clustering', '2D_PCA_1.png')
+    plot_2d_pca(finalDf, targets, colors, results_directory, '2D_PCA_1')
 
     pca = PCA(n_components=3)
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=[f'principal component {i+1}' for i in range(pca.n_components_)])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_3d_pca(finalDf, targets, colors, 'results/clustering', '3D_PCA_1.png')
+    plot_3d_pca(finalDf, targets, colors, results_directory, '3D_PCA_1')
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("input_folder", help="Path to the input folder")
+    parser.add_argument("--i", "--input_directory", help="Path to the input directory")
+    parser.add_argument("--r", "--results_directory", help="Path to the results directory")
     args = parser.parse_args()
-    main(args.input_folder)
+
+    if not args.i or not args.r:
+        parser.error("Both input_directory and results_directory are required.")
+
+    main(args.i, args.r)
