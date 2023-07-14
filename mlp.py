@@ -1,0 +1,211 @@
+import argparse
+import torch
+import torch.nn as nn
+import torch.optim as optim
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+import numpy as np
+import os
+import json
+
+
+def read_data(input_folder):
+    data_dict = {}
+    for key in os.listdir(input_folder):
+        path = os.path.join(input_folder, key)
+        data = []
+        for file in os.listdir(path):
+            with open(os.path.join(path, file), "r") as f:
+                data.append(json.load(f))
+        data_dict[key] = data
+    return data_dict
+
+
+def process_dictionary(dictionary):
+    keys = list(dictionary.keys())
+    features = []
+    labels = []
+
+    for key in keys:
+        elements = dictionary[key]
+        features.extend(elements)
+        if key == "Human":
+            labels.extend([1] * len(elements))
+        else:
+            labels.extend([0] * len(elements))
+
+    features = np.array(features)
+    labels = np.array(labels)
+
+    return features, labels
+
+
+class MLP(nn.Module):
+    def __init__(self, input_size, hidden_size):
+        super(MLP, self).__init__()
+        self.fc1 = nn.Linear(input_size, hidden_size)
+        self.relu = nn.ReLU()
+        self.fc2 = nn.Linear(hidden_size, hidden_size)
+        self.fc3 = nn.Linear(hidden_size, 1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        out = self.fc1(x)
+        out = self.relu(out)
+        out = self.fc2(out)
+        out = self.relu(out)
+        out = self.fc3(out)
+        out = self.sigmoid(out)
+        return out
+
+
+def train_model(features, labels, epochs, batch_size, val_split, alpha, lr, patience):
+    X_train, X_val, y_train, y_val = train_test_split(features, labels, test_size=val_split, random_state=42)
+
+    train_losses = []
+    val_losses = []
+    train_accs = []
+    val_accs = []
+
+    optimizer = optim.Adam(model.parameters(), lr=lr, weight_decay=alpha)
+
+    best_val_loss = float('inf')
+    best_model_weights = None
+    epochs_no_improve = 0
+
+    for epoch in range(epochs):
+        model.train()
+        running_loss = 0.0
+        correct = 0
+        total = 0
+
+        for i in range(0, len(X_train), batch_size):
+            inputs = torch.from_numpy(X_train[i:i + batch_size]).float()
+            targets = torch.from_numpy(y_train[i:i + batch_size]).float()
+            targets = targets.unsqueeze(1)
+
+            optimizer.zero_grad()
+
+            outputs = model(inputs)
+            loss = criterion(outputs, targets)
+
+            l2_reg = torch.tensor(0.)
+            for param in model.parameters():
+                l2_reg += torch.norm(param)
+
+            loss += alpha * l2_reg
+
+            loss.backward()
+            optimizer.step()
+
+            running_loss += loss.item()
+            predicted = torch.round(outputs)
+            total += targets.size(0)
+            correct += (predicted == targets).sum().item()
+
+        train_loss = running_loss / len(X_train)
+        train_acc = correct / total
+
+        model.eval()
+        val_loss = 0.0
+        correct = 0
+        total = 0
+
+        with torch.no_grad():
+            for i in range(0, len(X_val), batch_size):
+                inputs = torch.from_numpy(X_val[i:i + batch_size]).float()
+                targets = torch.from_numpy(y_val[i:i + batch_size]).float()
+                targets = targets.unsqueeze(1)  # Reshape labels
+
+                outputs = model(inputs)
+                loss = criterion(outputs, targets)
+
+                val_loss += loss.item()
+                predicted = torch.round(outputs)
+                total += targets.size(0)
+                correct += (predicted == targets).sum().item()
+
+        val_loss = val_loss / len(X_val)
+        val_acc = correct / total
+
+        train_losses.append(train_loss)
+        val_losses.append(val_loss)
+        train_accs.append(train_acc)
+        val_accs.append(val_acc)
+
+        if epoch % 10 == 0:
+            print('Epoch [{}/{}], Train Loss: {:.4f}, Train Acc: {:.4f}, Val Loss: {:.4f}, Val Acc: {:.4f}'
+                  .format(epoch + 1, epochs, train_loss, train_acc, val_loss, val_acc))
+
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            best_model_weights = model.state_dict()
+            epochs_no_improve = 0
+        else:
+            epochs_no_improve += 1
+            if epochs_no_improve == patience:
+                print("Early stopping! No improvement in validation loss for {} epochs.".format(patience))
+                break
+
+    model.load_state_dict(best_model_weights)
+
+    return model.state_dict(), train_losses, val_losses, train_accs, val_accs
+
+
+def plot_curves(train_losses, val_losses, train_accs, val_accs):
+    epochs = len(train_losses)
+    x = np.arange(1, epochs + 1)
+
+    plt.figure(figsize=(12, 4))
+    plt.subplot(1, 2, 1)
+    plt.plot(x, train_losses, label='Train')
+    plt.plot(x, val_losses, label='Validation')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Training and Validation Loss')
+    plt.legend()
+
+    plt.subplot(1, 2, 2)
+    plt.plot(x, train_accs, label='Train')
+    plt.plot(x, val_accs, label='Validation')
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Training and Validation Accuracy')
+    plt.legend()
+
+    plt.tight_layout()
+    plt.show()
+
+
+def predict(features):
+    model.eval()
+    with torch.no_grad():
+        inputs = torch.from_numpy(features).float()
+        outputs = model(inputs)
+        predictions = outputs.numpy()
+    return predictions
+
+
+def main(input_folder):
+    data = read_data(input_folder)
+    features, labels = process_dictionary(data)
+
+    input_size = 9
+    hidden_size = 9
+    model = MLP(input_size, hidden_size)
+
+    criterion = nn.BCELoss()
+    optimizer = optim.Adam(model.parameters(), weight_decay=0.001)
+
+    best_checkpoint, train_losses, val_losses, train_accs, val_accs = train_model(
+        features, labels, epochs=1000, batch_size=32, val_split=0.2, alpha=0.001, lr=0.001, patience=5)
+
+    plot_curves(train_losses, val_losses, train_accs, val_accs)
+    predictions = predict(features)
+    print(predictions)
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser()
+    parser.add_argument("input_folder", help="Path to the input folder")
+    args = parser.parse_args()
+    main(args.input_folder)
