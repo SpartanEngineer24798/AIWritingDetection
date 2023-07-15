@@ -25,7 +25,7 @@ def process_json_files(file_paths):
         json_data.append(content['authors'])
     return json_data
 
-file_path = r'C:\Users\Eddie\Downloads\pan22\dataset2\train'
+file_path = r'C:\Users\Eddie\Downloads\pan22\dataset2\validation'
 
 txt_files = glob.glob(file_path + r'\*.txt')
 json_files = glob.glob(file_path + r'\*.json')
@@ -36,6 +36,6 @@ json_data = process_json_files(json_files)
 df = pd.DataFrame({'txt_data': txt_data, 'no_authors': json_data})
 
 # Save DataFrame as CSV
-df.to_csv('data.csv', index=False)
+df.to_csv('validation.csv', index=False)
 
 print(df.head())
