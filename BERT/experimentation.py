@@ -2,11 +2,9 @@ import torch
 import pandas as pd
 from transformers import AlbertTokenizer, AlbertForSequenceClassification
 from torch.utils.data import Dataset, DataLoader
-from sklearn.model_selection import train_test_split
 import numpy as np
 import matplotlib.pyplot as plt
 
-# Step 1: Import the required libraries
 
 # Step 2: Prepare the dataset
 class CustomDataset(Dataset):
@@ -35,17 +33,9 @@ class CustomDataset(Dataset):
             'label': torch.tensor(label, dtype=torch.float32)  # Assuming labels are in float format
         }
 
-# Step 3: Install the required libraries
-# !pip install torch
-# !pip install transformers
-# !pip install pandas
-# !pip install scikit-learn
-
 # Step 4: Load and split the dataset
 train_df = pd.read_csv('data.csv')
 val_df = pd.read_csv('validation.csv')
-
-train_df, val_df = train_test_split(train_df, test_size=0.2, random_state=42)
 
 # Step 5: Initialize the ALBERT tokenizer and model
 tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
