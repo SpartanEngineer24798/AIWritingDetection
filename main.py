@@ -20,22 +20,21 @@ def execute_another_script(script_name, output_directory, results_directory):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Feature Extractor')
-    parser.add_argument('--i', type=str, help='Input directory path')
+    parser.add_argument('--i', type=str, help='Input directory path', required=True)
     parser.add_argument('--o', type=str, help='Output directory path')
     parser.add_argument('--r', type=str, help='Results directory path')
     parser.add_argument('--feature_extracter', help='Name of the feature extractor script')
     parser.add_argument('--clustering', help='Name of the clustering script')
     parser.add_argument('--mlp', help='Name of the MLP script')
+    parser.add_argument('--only_extraction', action='store_true', help='Run only the feature extraction script')
+    parser.add_argument('--only_clustering', action='store_true', help='Run only the clustering script')
+    parser.add_argument('--only_mlp', action='store_true', help='Run only the MLP script')
     args = parser.parse_args()
 
     # Check if output and results directories are provided, otherwise create folders "output" and "results"
     current_directory = os.path.abspath('.')
     output_directory = args.o if args.o else os.path.join(current_directory, "output")
     results_directory = args.r if args.r else os.path.join(current_directory, "results")
-
-    if not args.i:
-        print("Error: Please provide the input directory.")
-        exit(1)
 
     if not os.path.exists(args.i):
         print("Error: Input directory does not exist.")
@@ -55,19 +54,33 @@ if __name__ == "__main__":
     if not os.path.exists(results_directory):
         os.makedirs(results_directory)
 
-    if args.feature_extracter:
-        execute_script(args.feature_extracter, args.i, output_directory)
+    if args.only_extraction:
+        if args.feature_extracter:
+            execute_script(args.feature_extracter, args.i, output_directory)
+        else:
+            execute_script('feature_extracter.py', args.i, output_directory)
+    elif args.only_clustering:
+        if args.clustering:
+            execute_another_script(args.clustering, output_directory, results_directory)
+        else:
+            execute_another_script('clustering.py', output_directory, results_directory)
+    elif args.only_mlp:
+        if args.mlp:
+            execute_another_script(args.mlp, output_directory, results_directory)
+        else:
+            execute_another_script('mlp.py', output_directory, results_directory)
     else:
-        execute_script('feature_extracter.py', args.i, output_directory)
+        if args.feature_extracter:
+            execute_script(args.feature_extracter, args.i, output_directory)
+        else:
+            execute_script('feature_extracter.py', args.i, output_directory)
 
-'''
-    if args.clustering:
-        execute_another_script(args.clustering, output_directory, results_directory)
-    else:
-        execute_another_script('clustering.py', output_directory, results_directory)
+        if args.clustering:
+            execute_another_script(args.clustering, output_directory, results_directory)
+        else:
+            execute_another_script('clustering.py', output_directory, results_directory)
 
-    if args.mlp:
-        execute_another_script(args.mlp, output_directory, results_directory)
-    else:
-        execute_another_script('mlp.py', output_directory, results_directory)
-'''
+        if args.mlp:
+            execute_another_script(args.mlp, output_directory, results_directory)
+        else:
+            execute_another_script('mlp.py', output_directory, results_directory)
