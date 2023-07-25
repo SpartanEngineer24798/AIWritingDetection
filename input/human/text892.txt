@@ -1,0 +1,1 @@
+['It is calculated as total bases divided by at bats :']

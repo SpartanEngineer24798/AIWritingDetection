@@ -1,0 +1,1 @@
+['A memory card reader is a device, typically having a USB interface, for accessing the data on a memory card such as a CompactFlash (CF), Secure Digital (SD) or MultiMediaCard (MMC).']

@@ -1,0 +1,1 @@
+['In computer hardware , a host controller, host adapter, or host bus adapter (HBA) connects a host system (the computer ) to other network and storage devices.']

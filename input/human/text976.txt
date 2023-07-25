@@ -1,0 +1,1 @@
+['Weather is driven by air pressure (temperature and moisture) differences between one place and another.']

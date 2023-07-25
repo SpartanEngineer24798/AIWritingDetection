@@ -1,0 +1,1 @@
+['Context-dependent memory refers to improved recall of specific episodes or information when the context present at encoding and retrieval are the same.']

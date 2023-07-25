@@ -1,0 +1,1 @@
+['Conventional PCI (PCI is an initialism formed from Peripheral Component Interconnect, part of the PCI Local Bus standard and often shortened to just PCI) is a local computer bus for attaching hardware devices in a computer .']

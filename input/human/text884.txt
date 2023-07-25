@@ -1,0 +1,1 @@
+['The four families are the original Standard-Capacity (SDSC), the High-Capacity ( SDHC ), the eXtended-Capacity ( SDXC ), and the SDIO , which combines input/output functions with data storage.']

@@ -1,0 +1,1 @@
+["Firebird is an open source SQL relational database management system that runs on Linux , Windows , and a variety of Unix .The database forked from Borland 's open source edition of InterBase in 2000, but since Firebird 1.5 the code has been largely rewritten."]

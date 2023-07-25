@@ -1,0 +1,1 @@
+['Of the thousands of enumerated ports, about 250 well-known ports are reserved by convention to identify specific service types on a host.']

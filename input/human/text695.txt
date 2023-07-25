@@ -1,0 +1,1 @@
+['In chess, each player begins the game with eight pawns, one on each square of the rank immediately in front of the other pieces.']

@@ -1,0 +1,1 @@
+['Cluster sampling is a sampling technique used when "natural" but relatively homogeneous groupings are evident in a statistical population .']

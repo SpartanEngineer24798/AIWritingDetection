@@ -1,0 +1,1 @@
+Range in math is the difference between the smallest number and the largest number in a set of numbers. To find the range, you take the biggest number you have and subtract the smallest number from it. For example, if you have the numbers 1, 3, 5, 7, and 9, the smallest number is 1 and the biggest is 9. So, the range is 9 minus 1, which equals 8. That's it, the range is 8!

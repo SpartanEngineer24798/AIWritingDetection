@@ -1,0 +1,1 @@
+['In computing , a file system (or filesystem) is a type of data store which can be used to store, retrieve and update a set of files .']
