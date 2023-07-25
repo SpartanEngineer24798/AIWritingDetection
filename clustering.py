@@ -111,7 +111,7 @@ def main(input_folder, results_directory):
     for key, value in data.items():
         for sublist in value:
             row = sublist + [key]
-            df = df.append(pd.Series(row), ignore_index=True)
+            df = df.concat([df, pd.Series(row)], ignore_index=True)
 
     df = preprocess_data(df)
 
