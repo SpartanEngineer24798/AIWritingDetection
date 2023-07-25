@@ -116,8 +116,8 @@ def main(input_folder, results_directory):
     df = preprocess_data(df)
 
     features = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5', 'feature6', 'feature7', 'feature8', 'feature9']
-    targets = ['university professor', 'primary school student', 'William Shakespeare', 'Steve Irwin', 'Sherlock Holmes', 'Queen Elizabeth', 'Winston Churchill', 'J.R.R. Tolkien', 'Forrest Gump', 'Human']
-    colors = [(1, 0.4, 0.2, 0.5), (1, 0.2, 1, 0.5), (0.4, 1, 0.2, 0.5), (0.2, 1, 0.8, 0.5), (0.8, 0.2, 1, 0.5), (1, 0.8, 0.2, 0.5), (0.2, 0.4, 1, 0.5), (0.2, 0.8, 1, 0.5), (0.8, 0.2, 0.8, 0.5), (0, 0, 0, 0.3)]
+    targets = ['AI', 'Human']
+    colors = [(1, 0.2, 1, 0.5), (0.8, 0.2, 0.8, 0.5))]
 
     x = df.loc[:, features].values
     y = df.loc[:, ['key']].values
