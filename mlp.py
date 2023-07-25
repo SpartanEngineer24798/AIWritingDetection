@@ -208,7 +208,7 @@ def predict(model, features, results_dir):
     return predictions
 
 
-def main(input_folder, results_dir):
+def main(input_folder, results_dir, alpha, lr, patience):
     data = read_data(input_folder)
     features, labels = process_dictionary(data)
 
@@ -217,7 +217,7 @@ def main(input_folder, results_dir):
     model = MLP(input_size, hidden_size)
 
     best_checkpoint, train_losses, val_losses, train_accs, val_accs = train_model(
-        model, features, labels, epochs=1000, batch_size=32, val_split=0.2, alpha=0.001, lr=0.001, patience=5)
+        model, features, labels, epochs=1000, batch_size=32, val_split=0.2, alpha=alpha, lr=lr, patience=patience)
 
     plot_curves(train_losses, val_losses, train_accs, val_accs, results_dir)
     predictions = predict(model, features, results_dir)
@@ -225,15 +225,13 @@ def main(input_folder, results_dir):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--i", "--input_directory", help="Path to the input folder")
-    parser.add_argument("--r", "--results_directory", help="Path to the results directory")
+    parser.add_argument("--i", required=True, help="Path to the input folder")
+    parser.add_argument("--r", required=True, help="Path to the results directory")
+    parser.add_argument("--alpha", type=float, default=0.01, help="L2 regularization coefficient (default: 0.01)")
+    parser.add_argument("--lr", type=float, default=0.0001, help="Learning rate (default: 0.0001)")
+    parser.add_argument("--patience", type=int, default=5, help="Number of epochs with no improvement to wait before stopping (default: 5)")
     args = parser.parse_args()
-
-    if not args.i:
-        parser.error("Please provide the input directory.")
-    if not args.r:
-        parser.error("Please provide the results directory.")
 
     print("Beginning MLP training. Note that MLP training may require hyperparameter tuning")
 
-    main(args.i, args.r)
+    main(args.i, args.r, args.alpha, args.lr, args.patience)

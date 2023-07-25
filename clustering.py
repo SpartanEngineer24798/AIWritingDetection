@@ -137,8 +137,8 @@ def main(input_folder, results_directory):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--i", "--input_directory", help="Path to the input directory")
-    parser.add_argument("--r", "--results_directory", help="Path to the results directory")
+    parser.add_argument("--i", "--o", help="Path to the input directory")
+    parser.add_argument("--r", help="Path to the results directory")
     args = parser.parse_args()
 
     if not args.i or not args.r:
