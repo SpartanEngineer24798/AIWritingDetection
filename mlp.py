@@ -29,7 +29,7 @@ def process_dictionary(dictionary):
     for key in keys:
         elements = dictionary[key]
         features.extend(elements)
-        if key == "Human":
+        if key == "human":
             labels.extend([1] * len(elements))
         else:
             labels.extend([0] * len(elements))
