@@ -8,13 +8,13 @@ The Stylometry Based MLP is a project inspired by GLTR and PAN stylometry effort
 
 ## How to Use
 
-To use this repository, follow the steps below:
-0. If you do not have your own data, please use the example data provided inside OpenAI_Data folder. Call datasetmaker.py with the following:
+To use this repository, follow the steps below.
 
+If you do not have your own data, please use the example data provided inside OpenAI_Data folder. Call datasetmaker.py with the following:
    ```
    python3 datasetmaker.py --path absolute-path-to-/balanced_text_data.csv
    ```
-   This will let you skip steps 1-5.
+This will let you skip steps 1-5.
 
 1. Create a folder named "input" in the root directory of the project.
 2. Within the "input" folder, create a subfolder for each category you want to analyze ("human" and "ai").
