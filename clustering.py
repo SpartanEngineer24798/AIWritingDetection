@@ -23,19 +23,7 @@ def read_data(input_folder):
         data_dict[key] = data
     return data_dict
 
-
-def preprocess_data(df):
-    num_features = len(df.columns) - 1
-    column_names = [f"feature{i+1}" for i in range(num_features)] + ["key"]
-    df.columns = column_names
-
-    scaler = StandardScaler()
-    df.iloc[:, :-1] = scaler.fit_transform(df.iloc[:, :-1])
-
-    return df
-
-
-def plot_2d_pca(finalDf, targets, colors, folder, basename):
+def plot_2d_pca(finalDf, targets, colors, folder, basename, pca):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(1, 1, 1)
     ax.set_xlabel('Principal Component 1', fontsize=15)
@@ -68,7 +56,7 @@ def plot_2d_pca(finalDf, targets, colors, folder, basename):
     np.savetxt(os.path.join(folder, f'{basename}_explained_variance_ratios.csv'), explained_variance_ratios, delimiter=',')
 
 
-def plot_3d_pca(finalDf, targets, colors, folder, basename):
+def plot_3d_pca(finalDf, targets, colors, folder, basename, pca):
     fig = plt.figure(figsize=(8, 8))
     ax = fig.add_subplot(111, projection='3d')
     ax.set_xlabel('Principal Component 1', fontsize=15)
@@ -103,21 +91,28 @@ def plot_3d_pca(finalDf, targets, colors, folder, basename):
     explained_variance_ratios = pca.explained_variance_ratio_
     np.savetxt(os.path.join(folder, f'{basename}_explained_variance_ratios.csv'), explained_variance_ratios, delimiter=',')
 
-
 def main(input_folder, results_directory):
     data = read_data(input_folder)
-    df = pd.DataFrame()
+        
+    rows = []
 
     for key, value in data.items():
         for sublist in value:
             row = sublist + [key]
-            df = df.concat([df, pd.Series(row)], ignore_index=True)
+            rows.append(row)
 
-    df = preprocess_data(df)
+    df = pd.DataFrame(rows)
+    
+    num_features = len(df.columns) - 1
+    column_names = [f"feature{i+1}" for i in range(num_features)] + ["key"]
+    df.columns = column_names
+    
+    scaler = StandardScaler()
+    df.iloc[:,:-1] = scaler.fit_transform(df.iloc[:,:-1])
 
-    features = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5', 'feature6', 'feature7', 'feature8', 'feature9']
-    targets = ['AI', 'Human']
-    colors = [(1, 0.2, 1, 0.5), (0.8, 0.2, 0.8, 0.5)]
+    features = [f"feature{i+1}" for i in range(num_features)]
+    targets = data.keys()
+    colors = [(1, 0.4, 0.2, 0.5), (0.2, 0.4, 1, 0.5)]
 
     x = df.loc[:, features].values
     y = df.loc[:, ['key']].values
@@ -126,13 +121,13 @@ def main(input_folder, results_directory):
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=['principal component 1', 'principal component 2'])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_2d_pca(finalDf, targets, colors, results_directory, '2D_PCA_1')
+    plot_2d_pca(finalDf, targets, colors, results_directory, '2D_PCA_1', pca)
 
     pca = PCA(n_components=3)
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=[f'principal component {i+1}' for i in range(pca.n_components_)])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_3d_pca(finalDf, targets, colors, results_directory, '3D_PCA_1')
+    plot_3d_pca(finalDf, targets, colors, results_directory, '3D_PCA_1', pca)
 
 
 if __name__ == "__main__":
