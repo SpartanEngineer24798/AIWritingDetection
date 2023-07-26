@@ -6,7 +6,7 @@ def execute_script(script_name, input_directory, output_directory):
     current_directory = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(current_directory, script_name)
     try:
-        subprocess.call(['python', script_path, '--i', input_directory, '--o', output_directory])
+        subprocess.call(['python3', script_path, '--i', input_directory, '--o', output_directory])
     except Exception as e:
         print(f"Error executing script: {e}")
 
