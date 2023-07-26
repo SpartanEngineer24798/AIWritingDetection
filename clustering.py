@@ -117,7 +117,7 @@ def main(input_folder, results_directory):
 
     features = ['feature1', 'feature2', 'feature3', 'feature4', 'feature5', 'feature6', 'feature7', 'feature8', 'feature9']
     targets = ['AI', 'Human']
-    colors = [(1, 0.2, 1, 0.5), (0.8, 0.2, 0.8, 0.5))]
+    colors = [(1, 0.2, 1, 0.5), (0.8, 0.2, 0.8, 0.5)]
 
     x = df.loc[:, features].values
     y = df.loc[:, ['key']].values
