@@ -32,4 +32,4 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Process CSV file and split data into AI and human folders.")
     parser.add_argument("--path", type=str, help="Path to the CSV file")
     args = parser.parse_args()
-    main(args.csv_file_path)
+    main(args.path)
