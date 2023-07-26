@@ -10,6 +10,14 @@ The Stylometry Based MLP is a project inspired by GLTR and PAN stylometry effort
 
 To use this repository, follow the steps below.
 
+First, it is recommended that you use python 3.9 version as the requirements have been calibrated for that version. It is recommended that you either use a venv or conda with python 3.9. Once you have your environment, install all the requirements by calling:
+
+   ```
+   pip install -r requirements.txt
+   python -m spacy download en_core_web_trf #en_core_web_trf is a spacy module that needs to be downloaded separately
+   ```
+
+
 If you do not have your own data, please use the example data provided inside OpenAI_Data folder. Call datasetmaker.py with the following:
    ```
    python3 datasetmaker.py --path absolute-path-to-/balanced_text_data.csv
