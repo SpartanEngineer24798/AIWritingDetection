@@ -221,11 +221,19 @@ def main(input_folder, results_dir, alpha, lr, patience):
 
     plot_curves(train_losses, val_losses, train_accs, val_accs, results_dir)
     predictions = predict(model, features, results_dir)
+    
+    mlp_dir = os.path.join(results_dir, 'mlp')
+    os.makedirs(mlp_dir, exist_ok=True)
+    checkpoint_path = os.path.join(mlp_dir, 'best_model_checkpoint.pth')
+    torch.save(best_checkpoint, checkpoint_path)
+
+    print("Training complete. Best model checkpoint and results saved successfully.")
+
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--i", required=True, help="Path to the input folder")
+    parser.add_argument("--i", "--o", required=True, help="Path to the input folder")
     parser.add_argument("--r", required=True, help="Path to the results directory")
     parser.add_argument("--alpha", type=float, default=0.01, help="L2 regularization coefficient (default: 0.01)")
     parser.add_argument("--lr", type=float, default=0.0001, help="Learning rate (default: 0.0001)")
