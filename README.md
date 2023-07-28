@@ -1,6 +1,6 @@
 # AIWritingDetection
 
-This repository contains research on AI Writing Detection conducted in collaboration with MoMA Labs.
+This repository contains research on AI Writing Detection conducted in collaboration with MoMA Labs. The codebase was tested on Ubuntu 20.04.6 on a fresh python conda environment.
 
 ## Stylometry Based MLP
 
@@ -59,3 +59,23 @@ This will let you skip steps 1-5.
    The default hyperparameters will be called when the training hyperparameters are not given (these default hyperparameters work well with the data generated from balanced_text_data.csv)
 
 By following these steps, you will be able to analyze the text files, extract stylometric features, and obtain results using the Stylometry Based MLP.
+
+## HowkGPT
+
+HowkGPT is an AI Text detection program created by the Modern Microprocessor Architecture Lab, accessible online at https://howkgpt.hpc.nyu.edu/. The code, howkgpt.py is an automated method of calling the API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code.
+
+You can call howkgpt.py by putting the following in the command line interface:
+
+   ```
+   python3 howkgpt.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
+   ```
+
+Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from HowkGPT. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
+
+Note: as of now, there is no public way of receiving your own API key to use HowkGPT. Please contact the researchers directly if you would like to receive access.
+
+## ChatGPT API
+
+In-house implementation of accessing ChatGPT API is provided for producing HC3-Personalities Dataset.
+
+Note: the data generated over the course of June-July is provided as api_log.txt (for GPT3.5 responses) and gpt4_api_log.txt (for GPT4 reponses).
