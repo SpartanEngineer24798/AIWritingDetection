@@ -18,7 +18,6 @@ class TextObj:
 BASE_URL = 'https://howkgpt-f02f.uc.r.appspot.com'
 TOKEN_URL = f"{BASE_URL}/api/token"
 PPL_URL = f"{BASE_URL}/api/perplexity"
-THRESHOLD: float = 22.5
 
 def get_token(identity: str) -> str:
     data = '{"identity": "' + identity + '"}'
@@ -57,7 +56,7 @@ def make_requests(input_dir: str, output_dir: str, api_key, counter_limit=None):
     true_positive, false_positive, true_negative, false_negative = 0, 0, 0, 0
 
     counter = 0
-    for file_name, text in data_ai.items():
+    for idx, (file_name, text) in enumerate(data_ai.items(), start=1):
         counter += 1
         req = TextObj(text[0])
         bearer_token = get_token(api_key)
@@ -69,22 +68,27 @@ def make_requests(input_dir: str, output_dir: str, api_key, counter_limit=None):
         else:
             false_positive += 1
 
+        with open(os.path.join(output_dir, f"response_ai_{idx}.json"), "w") as f:
+            f.write(api_response)
+
         if counter_limit is not None and counter >= counter_limit:
             break
 
     counter = 0
-    for file_name, text in data_human.items():
+    for idx, (file_name, text) in enumerate(data_human.items(), start=1):
         counter += 1
         req = TextObj(text[0])
         bearer_token = get_token(api_key)
         api_response = get_ppl(req, bearer_token)
-        print(api_response)
         result = json.loads(api_response)["result"]
 
         if result == "Human":
             true_negative += 1
         else:
             false_negative += 1
+
+        with open(os.path.join(output_dir, f"response_human_{idx}.json"), "w") as f:
+            f.write(api_response)
 
         if counter_limit is not None and counter >= counter_limit:
             break
