@@ -1,24 +1,26 @@
 # AIWritingDetection
 
-This repository contains research on AI Writing Detection conducted in collaboration with MoMA Labs. The codebase was tested on Ubuntu 20.04.6 on a fresh python conda environment.
+This repository contains research on AI Writing Detection conducted in collaboration with MoMA Labs. The codebase was tested on Ubuntu 20.04.6 using a fresh Python conda environment.
 
 ## Stylometry Based MLP
 
-The Stylometry Based MLP is a project inspired by GLTR and PAN stylometry efforts [https://pan.webis.de/] aimed at detecting split authorship in a given text. This work simplifies their research and focuses on extracting significant stylometric information from AI-generated text and comparing it with human-generated text.
-
+The Stylometry Based MLP is a project inspired by GLTR and PAN stylometry efforts https://pan.webis.de/, aimed at detecting split authorship in a given text. This work simplifies their research and focuses on extracting significant stylometric information from AI-generated text and comparing it with human-generated text.
 ## How to Use
 
 To use this repository, follow the steps below.
 
-First, it is recommended that you use python 3.9 version as the requirements have been calibrated for that version. It is recommended that you either use a venv or conda with python 3.9. Once you have your environment, install all the requirements by calling:
+Set up your environment:
+
+    It is recommended to use Python 3.9 version, as the requirements have been calibrated for that version.
+    Create a virtual environment (venv) or conda environment with Python 3.9.
+    Install all the requirements by running the following commands:
 
    ```
    pip install -r requirements.txt
    python -m spacy download en_core_web_trf #en_core_web_trf is a spacy module that needs to be downloaded separately
    ```
 
-
-If you do not have your own data, please use the example data provided inside OpenAI_Data folder. Call datasetmaker.py with the following:
+If you do not have your own data, use the example data provided inside the OpenAI_Data folder. Call datasetmaker.py with the following command:
    ```
    python3 datasetmaker.py --path absolute-path-to-/balanced_text_data.csv
    ```
@@ -46,25 +48,25 @@ This will let you skip steps 1-5.
    python3 main.py --i input_directory --o output_directory --r results_directory
    ```
 
-   Replace `input_directory` with the path to the "input" folder, `output_directory` with the desired path for the output folder, and `results_directory` with the desired path for the results folder.
+   Replace input_directory with the path to the "input" folder, output_directory with the desired path for the output folder, and results_directory with the desired path for the results folder.
    You do not have to provide --o and --r if you are running it for the first time.
-   You can also call --only_extraction, --only_clustering, and --only_mlp if you want to only run the respective codes
+   You may also call --only_extraction, --only_clustering, and --only_mlp if you want to only run the respective codes.
 
-   The MLP training can be further customized by calling it on its own
+The MLP training can be further customized by calling it on its own:
 
    ```
    python3 mlp.py --i input_directory --r results_directory --lr your_rate --alpha your_alpha --patience your_patience
    ```
 
-   The default hyperparameters will be called when the training hyperparameters are not given (these default hyperparameters work well with the data generated from balanced_text_data.csv)
+The default hyperparameters will be called when the training hyperparameters are not given (these default hyperparameters work well with the data generated from balanced_text_data.csv)
 
 By following these steps, you will be able to analyze the text files, extract stylometric features, and obtain results using the Stylometry Based MLP.
 
 ## ChatGPT API
 
-In-house implementation of accessing ChatGPT API is provided for producing HC3-Personalities Dataset.
+This repository provides an in-house implementation of accessing the ChatGPT API to produce the HC3-Personalities Dataset.
 
-Please install the openai library separately if you would like to use this implementation of OpenAI API access. You can use the following in the cli:
+To use this implementation of OpenAI API access, you need to install the openai library separately. You can use the following command in the CLI:
 
    ```
    pip install openai
@@ -72,44 +74,44 @@ Please install the openai library separately if you would like to use this imple
 
 You will need to provide your own OpenAI API key.
 
-You can call the scipt with the following:
+You can call the scipt with the following command:
 
    ```
-   python openai_requests.py --json ./HC3_Data/all.jsonl --api_logs ./logs --key <<YOUR-API-KEY>> --personalities_file ./OpenAI_Data/personalities.txt
+   python3 openai_requests.py --json ./HC3_Data/all.jsonl --api_logs ./logs --key <<YOUR-API-KEY>> --personalities_file ./OpenAI_Data/personalities.txt
    ```
 
-Note: the data generated over the course of June-July is provided as api_log.txt (for GPT3.5 responses) and gpt4_api_log.txt (for GPT4 reponses). Due to the evolving nature of GPT models provided by OpenAI, the quality of the responses given may vary greatly.
+Note: the data generated over the course of June-July is provided as api_log.txt (for GPT3.5 responses) and gpt4_api_log.txt (for GPT4 responses). Due to the evolving nature of GPT models provided by OpenAI, the quality of the responses given may vary greatly.
 
 You can then use openai_process.py to extract the text from the log files. It can be called with the following:
 
    ```
-   python openai_process.py --api_logs ./logs --personalities_data ./personalities_data
+   python3 openai_process.py --api_logs ./logs --personalities_data ./personalities_data
    ```
 
 The extracted .txt files should be compatible with the main code if moved into the correct "ai" and "human" folders.
 
 ## HowkGPT API
 
-HowkGPT is an AI text detection program created by the Modern Microprocessor Architecture Lab, accessible online at https://howkgpt.hpc.nyu.edu/. The code, howkgpt_api.py is an automated method of calling the HowkGPT API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
+HowkGPT is an AI text detection program created by the Modern Microprocessor Architecture Lab, accessible online at https://howkgpt.hpc.nyu.edu/. The code howkgpt_api.py is an automated method of calling the HowkGPT API to check the text items in your input folder against the online classifier. The code is compatible with the input format used in the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
 
-You can call howkgpt.py by putting the following in the command line interface:
+You can call howkgpt_api.py by running the following comman:
 
    ```
    python3 howkgpt_api.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
    ```
 
-Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from HowkGPT. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
+Where the input folder is the same as the input used by main.py, and the output folder is recommended to be custom-created to store the API responses from HowkGPT. The counter_limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual JSON files, and the code will also output a confusion matrix at the end of execution.
 
-Note: as of now, there is no public way of receiving your own API key to use HowkGPT. Please contact the MoMA lab researchers directly if you would like to receive access.
+Note: as of now, there is no public method of receiving your own API key to use HowkGPT. Please contact MoMA lab directly if you would like to receive access.
 
 ## GPTZero API
 
-GPTZero is one of the most popular AI text detection programs online. The code, gptzero_api.py is an automated method of calling the GPTZero API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
+GPTZero is one of the most popular AI text detection programs online. The code gptzero_api.py is an automated method of calling the GPTZero API to check the text items in your input folder against the online classifier. The code is compatible with the input format used in the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
 
-You can call gptzero_api.py by putting the following in the command line interface:
+You can call gptzero_api.py by running the following command:
 
    ```
    python3 gptzero_api.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
    ```
 
-Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from GPTZero. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
+Where the input folder is the same as the input used by main.py, and the output folder is recommended to be custom-created to store the API responses from GPTZero. The counter_limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual JSON files, and the code will also output a confusion matrix at the end of execution.
