@@ -51,8 +51,6 @@ def load_dataset(input_dir: str):
 def make_requests(input_dir: str, output_dir: str, api_key, counter_limit=None):
     data_ai, data_human = load_dataset(input_dir)
 
-    total_requests = len(data_ai) + len(data_human)
-
     true_positive, false_positive, true_negative, false_negative = 0, 0, 0, 0
 
     counter = 0
