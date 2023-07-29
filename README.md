@@ -108,6 +108,12 @@ Note: as of now, there is no public method of receiving your own API key to use 
 
 GPTZero is one of the most popular AI text detection programs online. The code gptzero_api.py is an automated method of calling the GPTZero API to check the text items in your input folder against the online classifier. The code is compatible with the input format used in the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
 
+To use this implementation of GPTZero API access, you need to install the gptzero library separately. You can use the following command in the CLI:
+
+   ```
+   pip install gptzero
+   ```
+
 You can call gptzero_api.py by running the following command:
 
    ```
