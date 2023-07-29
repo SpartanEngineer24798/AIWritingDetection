@@ -46,8 +46,8 @@ def process_log_files(log_directory, root_saving_directory):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Extract and save responses from log files.")
-    parser.add_argument("--log", required=True, help="Path to the directory containing log files.")
-    parser.add_argument("--input", required=True, help="Path to the root saving directory.")
+    parser.add_argument("--api_logs", required=True, help="Path to the directory containing log files.")
+    parser.add_argument("--personalities_data", required=True, help="Path to the root saving directory.")
     args = parser.parse_args()
 
-    process_log_files(args.log, args.input)
+    process_log_files(args.api_logs, args.personalities_data)

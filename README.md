@@ -60,20 +60,6 @@ This will let you skip steps 1-5.
 
 By following these steps, you will be able to analyze the text files, extract stylometric features, and obtain results using the Stylometry Based MLP.
 
-## HowkGPT
-
-HowkGPT is an AI Text detection program created by the Modern Microprocessor Architecture Lab, accessible online at https://howkgpt.hpc.nyu.edu/. The code, howkgpt.py is an automated method of calling the API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code.
-
-You can call howkgpt.py by putting the following in the command line interface:
-
-   ```
-   python3 howkgpt.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
-   ```
-
-Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from HowkGPT. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
-
-Note: as of now, there is no public way of receiving your own API key to use HowkGPT. Please contact the researchers directly if you would like to receive access.
-
 ## ChatGPT API
 
 In-house implementation of accessing ChatGPT API is provided for producing HC3-Personalities Dataset.
@@ -101,3 +87,29 @@ You can then use openai_process.py to extract the text from the log files. It ca
    ```
 
 The extracted .txt files should be compatible with the main code if moved into the correct "ai" and "human" folders.
+
+## HowkGPT API
+
+HowkGPT is an AI text detection program created by the Modern Microprocessor Architecture Lab, accessible online at https://howkgpt.hpc.nyu.edu/. The code, howkgpt_api.py is an automated method of calling the HowkGPT API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
+
+You can call howkgpt.py by putting the following in the command line interface:
+
+   ```
+   python3 howkgpt_api.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
+   ```
+
+Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from HowkGPT. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
+
+Note: as of now, there is no public way of receiving your own API key to use HowkGPT. Please contact the MoMA lab researchers directly if you would like to receive access.
+
+## GPTZero API
+
+GPTZero is one of the most popular AI text detection programs online. The code, gptzero_api.py is an automated method of calling the GPTZero API to check the text items in your input folder against the online classifier. The code is compatible with the input format with the main code. It is recommended that you create a separate folder to save the API responses to serve as the output folder.
+
+You can call gptzero_api.py by putting the following in the command line interface:
+
+   ```
+   python3 gptzero_api.py --i input_dir --o output_dir --api <<YOUR_API_KEY>> --counter_limit 3
+   ```
+
+Where the input folder is the same as the input used by the main.py, and the output folder is recommended to be custom-created to store the API responses from GPTZero. Counter limit is an optional variable (can be ignored) to limit the number of requests made to the API. The responses of the API will be saved to the specified output directory as individual json files, and the code will also output a confusion matrix at the end of execution.
