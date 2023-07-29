@@ -89,7 +89,15 @@ You will need to provide your own OpenAI API key.
 You can call the scipt with the following:
 
    ```
-   python openai_test.py --json ./HC3_Data/all.jsonl --api_logs ./logs --key <<YOUR-API-KEY>> --personalities_file ./OpenAI_Data/personalities.txt
+   python openai_requests.py --json ./HC3_Data/all.jsonl --api_logs ./logs --key <<YOUR-API-KEY>> --personalities_file ./OpenAI_Data/personalities.txt
    ```
 
 Note: the data generated over the course of June-July is provided as api_log.txt (for GPT3.5 responses) and gpt4_api_log.txt (for GPT4 reponses). Due to the evolving nature of GPT models provided by OpenAI, the quality of the responses given may vary greatly.
+
+You can then use openai_process.py to extract the text from the log files. It can be called with the following:
+
+   ```
+   python openai_process.py --api_logs ./logs --personalities_data ./personalities_data
+   ```
+
+The extracted .txt files should be compatible with the main code if moved into the correct "ai" and "human" folders.
