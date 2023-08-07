@@ -58,7 +58,9 @@ The MLP training can be further customized by calling it on its own:
    python3 mlp.py --i input_directory --r results_directory --lr your_rate --alpha your_alpha --patience your_patience
    ```
 
-The default hyperparameters will be called when the training hyperparameters are not given (these default hyperparameters work well with the data generated from balanced_text_data.csv)
+The default hyperparameters will be called when the training hyperparameters are not given (these default hyperparameters work well with the data generated from balanced_text_data.csv).
+
+Specifically, they are 0.0001 for the learning rate, 0.01 for the alpha, and 5 for patience.
 
 By following these steps, you will be able to analyze the text files, extract stylometric features, and obtain results using the Stylometry Based MLP.
 
