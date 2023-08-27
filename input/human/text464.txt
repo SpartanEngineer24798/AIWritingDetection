@@ -1,1 +1,1 @@
-['Non-binding arbitration is a type of arbitration in which the arbitrator makes a determination of the rights of the parties to the dispute, but this determination is not binding upon them, and no enforceable arbitration award is issued.']
+Non-binding arbitration is a type of arbitration in which the arbitrator makes a determination of the rights of the parties to the dispute, but this determination is not binding upon them, and no enforceable arbitration award is issued.

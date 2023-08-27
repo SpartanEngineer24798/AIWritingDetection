@@ -1,1 +1,1 @@
-['The TI-82 is a graphing calculator made by Texas Instruments .The TI-82 was designed in 1993 as a stripped down, more user friendly version of the TI-85 , and as a replacement for the TI-81 .']
+The TI-82 is a graphing calculator made by Texas Instruments .The TI-82 was designed in 1993 as a stripped down, more user friendly version of the TI-85 , and as a replacement for the TI-81 .

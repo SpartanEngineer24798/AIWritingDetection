@@ -1,1 +1,1 @@
-['In practice, the term SLA is sometimes used to refer to the contracted delivery time (of the service or performance).']
+In practice, the term SLA is sometimes used to refer to the contracted delivery time (of the service or performance).

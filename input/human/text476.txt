@@ -1,1 +1,1 @@
-['For example, Super Bowl I was played on January 15, 1967, following the 1966 regular season , while Super Bowl XLVII was played on February 3, 2013, following the 2012 season .']
+For example, Super Bowl I was played on January 15, 1967, following the 1966 regular season , while Super Bowl XLVII was played on February 3, 2013, following the 2012 season .

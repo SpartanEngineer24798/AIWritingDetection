@@ -1,1 +1,1 @@
-['A deliverable could be a report, a document, a server upgrade or any other building block of an overall project.']
+A deliverable could be a report, a document, a server upgrade or any other building block of an overall project.

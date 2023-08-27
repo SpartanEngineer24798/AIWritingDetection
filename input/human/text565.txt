@@ -1,1 +1,1 @@
-['Copper is a chemical element with the symbol Cu (from ) and atomic number 29.']
+Copper is a chemical element with the symbol Cu (from ) and atomic number 29.

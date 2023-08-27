@@ -1,1 +1,1 @@
-['He lives in Massachusetts with his wife and two children.']
+He lives in Massachusetts with his wife and two children.

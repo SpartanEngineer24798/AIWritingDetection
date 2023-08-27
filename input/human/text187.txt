@@ -1,1 +1,1 @@
-['Human immunodeficiency virus (HIV) is a lentivirus (slowly replicating retrovirus ) that causes acquired immunodeficiency syndrome (AIDS), a condition in humans in which progressive failure of the immune system allows life-threatening opportunistic infections and cancers to thrive.']
+Human immunodeficiency virus (HIV) is a lentivirus (slowly replicating retrovirus ) that causes acquired immunodeficiency syndrome (AIDS), a condition in humans in which progressive failure of the immune system allows life-threatening opportunistic infections and cancers to thrive.

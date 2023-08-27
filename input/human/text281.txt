@@ -1,1 +1,1 @@
-['The company was founded on April 1, 1976, and incorporated as Apple Computer, Inc. on January 3, 1977.']
+The company was founded on April 1, 1976, and incorporated as Apple Computer, Inc. on January 3, 1977.

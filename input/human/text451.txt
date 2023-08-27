@@ -1,1 +1,1 @@
-['The USA PATRIOT Act of 2001 is an Act of the U.S. Congress that was signed into law by President George W. Bush on October 26, 2001.']
+The USA PATRIOT Act of 2001 is an Act of the U.S. Congress that was signed into law by President George W. Bush on October 26, 2001.

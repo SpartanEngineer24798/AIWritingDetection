@@ -1,1 +1,1 @@
-['is a function from domain X to codomain Y.']
+is a function from domain X to codomain Y.

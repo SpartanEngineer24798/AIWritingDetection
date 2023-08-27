@@ -15,9 +15,19 @@ def read_data(input_folder):
         path = os.path.join(input_folder, key)
         data = []
         for file in os.listdir(path):
-            with open(os.path.join(path, file), "r") as f:
-                data.append(json.load(f))
+            file_path = os.path.join(path, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    try:
+                        data.append(json.load(f))
+                    except json.JSONDecodeError:
+                        f.seek(0)  # Reset the file cursor
+                        raw_content = f.read()
+                        data.append(raw_content)
+            except IOError as e:
+                print(f"Error reading file {file_path}: {e}")
         data_dict[key] = data
+    
     return data_dict
 
 
@@ -61,6 +71,7 @@ class MLP(nn.Module):
 
 def train_model(model, features, labels, epochs, batch_size, val_split, alpha, lr, patience):
     X_train, X_val, y_train, y_val = train_test_split(features, labels, test_size=val_split, random_state=42)
+    print(X_train)
 
     train_losses = []
     val_losses = []

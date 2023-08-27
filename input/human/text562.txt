@@ -1,1 +1,1 @@
-['Prognosis is poor (5-year survival <5 to 15%) because most patients present with advanced disease.']
+Prognosis is poor (5-year survival <5 to 15%) because most patients present with advanced disease.

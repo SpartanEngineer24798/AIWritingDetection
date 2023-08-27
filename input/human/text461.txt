@@ -1,1 +1,1 @@
-['H.264/MPEG-4 Part 10 or AVC (Advanced Video Coding) is a standard for video compression , and is currently one of the most commonly used formats for the recording, compression, and distribution of high definition video .']
+H.264/MPEG-4 Part 10 or AVC (Advanced Video Coding) is a standard for video compression , and is currently one of the most commonly used formats for the recording, compression, and distribution of high definition video .

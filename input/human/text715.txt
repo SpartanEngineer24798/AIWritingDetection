@@ -1,1 +1,1 @@
-['Volcanic pipes are relatively rare.']
+Volcanic pipes are relatively rare.

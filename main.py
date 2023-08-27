@@ -54,6 +54,8 @@ if __name__ == "__main__":
     if not os.path.exists(results_directory):
         os.makedirs(results_directory)
 
+    print("Beginning main script.")
+
     if args.only_extraction:
         if args.feature_extracter:
             execute_script(args.feature_extracter, args.i, output_directory)

@@ -1,1 +1,1 @@
-['Conroe is the seat of Montgomery County and falls within the metropolitan area.']
+Conroe is the seat of Montgomery County and falls within the metropolitan area.

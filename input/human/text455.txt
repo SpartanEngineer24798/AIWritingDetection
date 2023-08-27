@@ -1,1 +1,1 @@
-["GSM (Global System for Mobile Communications, originally '), is a standard set developed by the European Telecommunications Standards Institute (ETSI) to describe protocols for second generation ( 2G ) digital cellular networks used by mobile phones ."]
+GSM (Global System for Mobile Communications, originally '), is a standard set developed by the European Telecommunications Standards Institute (ETSI) to describe protocols for second generation ( 2G ) digital cellular networks used by mobile phones .

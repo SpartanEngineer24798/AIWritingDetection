@@ -1,1 +1,1 @@
-['Pigs are omnivores and are highly social and intelligent animals.']
+Pigs are omnivores and are highly social and intelligent animals.

@@ -1,1 +1,1 @@
-['The Eagle first flew in July 1972, and entered service in 1976.']
+The Eagle first flew in July 1972, and entered service in 1976.

@@ -1,1 +1,1 @@
-['For example, in the Gregorian calendar (a common solar calendar), February in a leap year has 29 days instead of the usual 28, so the year lasts 366 days instead of the usual 365.']
+For example, in the Gregorian calendar (a common solar calendar), February in a leap year has 29 days instead of the usual 28, so the year lasts 366 days instead of the usual 365.

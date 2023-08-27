@@ -1,1 +1,1 @@
-['The agent stimulates the body\'s immune system to recognize the agent as foreign, destroy it, and "remember" it, so that the immune system can more easily recognize and destroy any of these microorganisms that it later encounters.']
+The agent stimulates the body\'s immune system to recognize the agent as foreign, destroy it, and "remember" it, so that the immune system can more easily recognize and destroy any of these microorganisms that it later encounters.

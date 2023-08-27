@@ -1,1 +1,1 @@
-['A steam engine is a heat engine that performs mechanical work using steam as its working fluid .Steam engines are external combustion engines , where the working fluid is separate from the combustion products.']
+A steam engine is a heat engine that performs mechanical work using steam as its working fluid .Steam engines are external combustion engines , where the working fluid is separate from the combustion products.

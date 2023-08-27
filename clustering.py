@@ -15,12 +15,19 @@ def read_data(input_folder):
         path = os.path.join(input_folder, key)
         data = []
         for file in os.listdir(path):
-            with open(os.path.join(path, file), "r") as f:
-                try:
-                    data.append(json.load(f))
-                except json.JSONDecodeError:
-                    print(f"Error decoding JSON in file: {file}")
+            file_path = os.path.join(path, file)
+            try:
+                with open(file_path, "r", encoding="utf-8") as f:
+                    try:
+                        data.append(json.load(f))
+                    except json.JSONDecodeError:
+                        f.seek(0)  # Reset the file cursor
+                        raw_content = f.read()
+                        data.append(raw_content)
+            except IOError as e:
+                print(f"Error reading file {file_path}: {e}")
         data_dict[key] = data
+    
     return data_dict
 
 def plot_2d_pca(finalDf, targets, colors, folder, basename, pca):
@@ -117,17 +124,21 @@ def main(input_folder, results_directory):
     x = df.loc[:, features].values
     y = df.loc[:, ['key']].values
 
+    # Create a new folder called "clustering" within the results_directory
+    clustering_folder = os.path.join(results_directory, "clustering")
+    os.makedirs(clustering_folder, exist_ok=True)
+
     pca = PCA(n_components=2)
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=['principal component 1', 'principal component 2'])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_2d_pca(finalDf, targets, colors, results_directory, '2D_PCA_1', pca)
+    plot_2d_pca(finalDf, targets, colors, clustering_folder, '2D_PCA_1', pca)
 
     pca = PCA(n_components=3)
     principalComponents = pca.fit_transform(x)
     principalDf = pd.DataFrame(data=principalComponents, columns=[f'principal component {i+1}' for i in range(pca.n_components_)])
     finalDf = pd.concat([principalDf, df[['key']]], axis=1)
-    plot_3d_pca(finalDf, targets, colors, results_directory, '3D_PCA_1', pca)
+    plot_3d_pca(finalDf, targets, colors, clustering_folder, '3D_PCA_1', pca)
 
 
 if __name__ == "__main__":

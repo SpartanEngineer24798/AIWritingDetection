@@ -1,1 +1,1 @@
-['Everyday pressures are often stated in kilopascals (1 kPa = 1000 Pa).']
+Everyday pressures are often stated in kilopascals (1 kPa = 1000 Pa).

@@ -1,1 +1,1 @@
-['During one orbit around the Sun, the Earth rotates about its own axis 366.26 times, creating 365.26 solar days , or one sidereal year .']
+During one orbit around the Sun, the Earth rotates about its own axis 366.26 times, creating 365.26 solar days , or one sidereal year .

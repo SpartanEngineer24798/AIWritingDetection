@@ -1,1 +1,1 @@
-['It was first developed by Siemens in the mid-1990s and introduced by Mercedes-Benz under the name "Keyless Go" in 1998 on the W220 S-Class following its design patent filed by Daimler-Benz on May 17, 1997.']
+It was first developed by Siemens in the mid-1990s and introduced by Mercedes-Benz under the name "Keyless Go" in 1998 on the W220 S-Class following its design patent filed by Daimler-Benz on May 17, 1997.

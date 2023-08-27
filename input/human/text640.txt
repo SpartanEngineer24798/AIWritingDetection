@@ -1,1 +1,1 @@
-['A biologist is a scientist who studies living organisms and their relationship to their environment.']
+A biologist is a scientist who studies living organisms and their relationship to their environment.

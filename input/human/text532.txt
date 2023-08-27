@@ -1,1 +1,1 @@
-['Flour is a powder which is made by grinding cereal grains , or other seeds or roots (like Cassava ).']
+Flour is a powder which is made by grinding cereal grains , or other seeds or roots (like Cassava ).

@@ -1,1 +1,1 @@
-['The Arctic Circle is the southernmost latitude in the Northern Hemisphere at which the sun can remain continuously above or below the horizon for 24 hours (at the June solstice and December solstice respectively).']
+The Arctic Circle is the southernmost latitude in the Northern Hemisphere at which the sun can remain continuously above or below the horizon for 24 hours (at the June solstice and December solstice respectively).

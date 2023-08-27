@@ -1,1 +1,1 @@
-['A wiki ( ) is a website which allows its users to add, modify, or delete its content via a web browser usually using a simplified markup language or a rich-text editor .']
+A wiki ( ) is a website which allows its users to add, modify, or delete its content via a web browser usually using a simplified markup language or a rich-text editor .

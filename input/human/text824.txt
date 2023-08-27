@@ -1,1 +1,1 @@
-['There have been four successful robotically operated Mars rovers.']
+There have been four successful robotically operated Mars rovers.

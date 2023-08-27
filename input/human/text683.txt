@@ -1,1 +1,1 @@
-['A computer is a general purpose device that can be programmed to carry out a finite set of arithmetic or logical operations.']
+A computer is a general purpose device that can be programmed to carry out a finite set of arithmetic or logical operations.

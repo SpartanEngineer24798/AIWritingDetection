@@ -1,1 +1,1 @@
-["Diagnosis is based on observed behavior and the patient's reported experiences."]
+Diagnosis is based on observed behavior and the patient's reported experiences.

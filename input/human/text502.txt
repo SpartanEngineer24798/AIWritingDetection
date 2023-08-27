@@ -1,1 +1,1 @@
-['A telephone prefix is the first set of digits of a telephone number; in the North American Numbering Plan countries (country code 1), it is the first three digits of a seven-digit phone number.']
+A telephone prefix is the first set of digits of a telephone number; in the North American Numbering Plan countries (country code 1), it is the first three digits of a seven-digit phone number.

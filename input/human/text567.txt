@@ -1,1 +1,1 @@
-['In statistics , stepwise regression includes regression models in which the choice of predictive variables is carried out by an automatic procedure.']
+In statistics , stepwise regression includes regression models in which the choice of predictive variables is carried out by an automatic procedure.
