@@ -5,18 +5,28 @@ import subprocess
 def execute_script(script_name, input_directory, output_directory):
     current_directory = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(current_directory, script_name)
-    try:
-        subprocess.call(['python3', script_path, '--i', input_directory, '--o', output_directory])
-    except Exception as e:
-        print(f"Error executing script: {e}")
+
+    python_versions = ['python3', 'python']
+
+    for python_version in python_versions:
+        try:
+            subprocess.call([python_version, script_path, '--i', input_directory, '--o', output_directory])
+            break  # If successful, exit the loop
+        except Exception as e:
+            print(f"Error executing script with {python_version}: {e}")
 
 def execute_another_script(script_name, output_directory, results_directory):
     current_directory = os.path.dirname(os.path.abspath(__file__))
     script_path = os.path.join(current_directory, script_name)
-    try:
-        subprocess.call(['python', script_path, '--o', output_directory, '--r', results_directory])
-    except Exception as e:
-        print(f"Error executing script: {e}")
+
+    python_versions = ['python3', 'python']
+
+    for python_version in python_versions:
+        try:
+            subprocess.call([python_version, script_path, '--o', output_directory, '--r', results_directory])
+            break  # If successful, exit the loop
+        except Exception as e:
+            print(f"Error executing script with {python_version}: {e}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Feature Extractor')
